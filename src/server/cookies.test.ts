@@ -1,3 +1,4 @@
+import * as jose from "jose";
 import { describe, expect, it } from "vitest";
 
 import { generateSecret } from "../test/utils";
@@ -12,7 +13,7 @@ describe("encrypt/decrypt", async () => {
     const maxAge = 60 * 60; // 1 hour in seconds
     const expiration = Math.floor(Date.now() / 1000 + maxAge);
     const encrypted = await encrypt(payload, secret, expiration);
-    const decrypted = await decrypt(encrypted, secret);
+    const decrypted = await decrypt(encrypted, secret) as jose.JWTDecryptResult;
 
     expect(decrypted.payload).toEqual(expect.objectContaining(payload));
   });

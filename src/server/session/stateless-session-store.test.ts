@@ -1,3 +1,4 @@
+import * as jose from "jose";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { generateSecret } from "../../test/utils";
@@ -325,7 +326,7 @@ describe("Stateless Session Store", async () => {
         const cookie = responseCookies.get("__session");
 
         expect(cookie).toBeDefined();
-        expect((await decrypt(cookie!.value, secret)).payload).toEqual(expect.objectContaining(session));
+        expect((await decrypt(cookie!.value, secret) as jose.JWTDecryptResult).payload).toEqual(expect.objectContaining(session));
         expect(cookie?.path).toEqual("/");
         expect(cookie?.httpOnly).toEqual(true);
         expect(cookie?.sameSite).toEqual("lax");
@@ -471,7 +472,7 @@ describe("Stateless Session Store", async () => {
         const cookie = responseCookies.get("__session");
 
         expect(cookie).toBeDefined();
-        expect((await decrypt(cookie!.value, secret)).payload).toEqual(expect.objectContaining(session));
+        expect((await decrypt(cookie!.value, secret) as jose.JWTDecryptResult).payload).toEqual(expect.objectContaining(session));
         expect(cookie?.path).toEqual("/");
         expect(cookie?.httpOnly).toEqual(true);
         expect(cookie?.sameSite).toEqual("lax");
@@ -511,7 +512,7 @@ describe("Stateless Session Store", async () => {
         const cookie = responseCookies.get("__session");
 
         expect(cookie).toBeDefined();
-        expect((await decrypt(cookie!.value, secret)).payload).toEqual(expect.objectContaining(session));
+        expect((await decrypt(cookie!.value, secret) as jose.JWTDecryptResult).payload).toEqual(expect.objectContaining(session));
         expect(cookie?.path).toEqual("/");
         expect(cookie?.httpOnly).toEqual(true);
         expect(cookie?.sameSite).toEqual("lax");
@@ -550,7 +551,7 @@ describe("Stateless Session Store", async () => {
         const cookie = responseCookies.get("__session");
 
         expect(cookie).toBeDefined();
-        expect((await decrypt(cookie!.value, secret)).payload).toEqual(expect.objectContaining(session));
+        expect((await decrypt(cookie!.value, secret) as jose.JWTDecryptResult).payload).toEqual(expect.objectContaining(session));
         expect(cookie?.path).toEqual("/");
         expect(cookie?.httpOnly).toEqual(true);
         expect(cookie?.sameSite).toEqual("strict");
@@ -586,7 +587,7 @@ describe("Stateless Session Store", async () => {
         const cookie = responseCookies.get("__session");
 
         expect(cookie).toBeDefined();
-        expect((await decrypt(cookie!.value, secret)).payload).toEqual(expect.objectContaining(session));
+        expect((await decrypt(cookie!.value, secret) as jose.JWTDecryptResult).payload).toEqual(expect.objectContaining(session));
         expect(cookie?.path).toEqual("/custom-path");
       });
 
@@ -621,7 +622,7 @@ describe("Stateless Session Store", async () => {
         const cookie = responseCookies.get("custom-session");
 
         expect(cookie).toBeDefined();
-        expect((await decrypt(cookie!.value, secret)).payload).toEqual(expect.objectContaining(session));
+        expect((await decrypt(cookie!.value, secret) as jose.JWTDecryptResult).payload).toEqual(expect.objectContaining(session));
         expect(cookie?.path).toEqual("/");
         expect(cookie?.httpOnly).toEqual(true);
         expect(cookie?.sameSite).toEqual("lax");
