@@ -31,9 +31,8 @@ describe("encrypt/decrypt", async () => {
     const payload = { key: "value" };
     const expiration = Math.floor(Date.now() / 1000 - 60); // 60 seconds in the past
     const encrypted = await encrypt(payload, secret, expiration);
-    await expect(() =>
-      decrypt(encrypted, secret)
-    ).rejects.toThrowError(`"exp" claim timestamp check failed`);
+    const decrypted = await decrypt(encrypted, secret);
+    expect(decrypted).toBeNull();
   });
 
   it("should fail to encrypt if a secret is not provided", async () => {
